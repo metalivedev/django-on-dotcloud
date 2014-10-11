@@ -140,7 +140,7 @@ INSTALLED_APPS = (
 # more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
@@ -159,38 +159,26 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
-        'log_file': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'formatter': 'verbose',
-            'filename': '/var/log/supervisor/blogapp.log',
-            'maxBytes': 1024*1024*25, # 25 MB
-            'backupCount': 5,
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'log_file', 'mail_admins'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': True,
         },
         'django.request': {
-            'handlers': ['console', 'log_file', 'mail_admins'],
+            'handlers': ['console'],
             'level': 'ERROR',
             'propagate': False,
         },
         'django.db.backends': {
-            'handlers': ['console', 'log_file', 'mail_admins'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': False,
         },
         # Catch All Logger -- Captures any other logging
         '': {
-            'handlers': ['console', 'log_file', 'mail_admins'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': True,
         }
