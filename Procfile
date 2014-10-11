@@ -1,0 +1,1 @@
+web: $HOME/bin/dcapproot.sh; ./postinstall; supervisord -c config/supervisord.conf 

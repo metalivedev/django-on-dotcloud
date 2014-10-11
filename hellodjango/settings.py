@@ -2,7 +2,7 @@
 import os
 
 import json
-with open('/home/dotcloud/environment.json') as f:
+with open(os.environ['CRED_FILE']) as f:
   env = json.load(f)
 
 settings_dir = os.path.dirname(__file__)
@@ -21,12 +21,24 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'happydb',
-        'USER': env['DOTCLOUD_DB_SQL_LOGIN'],
-        'PASSWORD': env['DOTCLOUD_DB_SQL_PASSWORD'],
-        'HOST': env['DOTCLOUD_DB_SQL_HOST'],
-        'PORT': int(env['DOTCLOUD_DB_SQL_PORT']),
+        'USER': env['POSTGRESQLD']['POSTGRESQLD_USER'],
+        'PASSWORD': env['POSTGRESQLD']['POSTGRESQLD_PASSWORD'],
+        'HOST': env['POSTGRESQLD']['POSTGRESQLD_HOST'],
+        'PORT': int(env['POSTGRESQLD']['POSTGRESQLD_PORT']),
     }
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': env['OPENREDIS']['OPENREDIS_URL'],
+        'OPTIONS': {
+            'DB': 1,
+            'PARSER_CLASS': 'redis.connection.HiredisParser'
+        },
+    },
+}
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -53,7 +65,7 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/home/dotcloud/data/media/'
+MEDIA_ROOT = '/tmp/media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -64,7 +76,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/home/dotcloud/volatile/static/'
+STATIC_ROOT = '/tmp/static'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -84,7 +96,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '@ei90c#1l730c5ru0*2$1zuqr90^fy3_4(wyys&^3ojqqytkwy'
+SECRET_KEY = '@ei90c#1l730c5ru0*2$1zuqr90^fy3_4(wwws&^3ojqqytkwy'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

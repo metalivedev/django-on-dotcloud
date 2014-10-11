@@ -23,3 +23,16 @@ Add on Postgre and Redis:
 If you see "Gone" that means you haven't pushed the deployment version
 yet. You don't have to cctrlapp deploy, but you do have to push.
 
+Made the necessary changes to system paths and credentials.
+The credentials port was easy. 
+Not sure about the Redis conversion and `CACHES` section: it wasn't
+actually in the original dotCloud example, so I'm not sure why it was
+removed..
+
+Also, `MEDIA_ROOT` in settings.py expects to be persistent, and we
+used to point people to the ~/data directory, which doesn't work on
+cloudControl. So, that's a big difference. Is there some database
+backend?
+
+?? Should dcapproot.sh also run the postinstall script if it exists?
+Probably.
